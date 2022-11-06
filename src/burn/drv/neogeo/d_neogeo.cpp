@@ -936,7 +936,7 @@ STDDIPINFOEXT(neoaesjapan, neoaesjapan, neogeo)
 
 // Rom information
 static struct BurnRomInfo neogeoRomDesc[] = {
-	{ "sp-s3.sp1",         0x20000, 0x91b64be3, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT           }, //  0 MVS Asia/Europe ver. 6 (1 slot)
+	{ "sp-s3.sp1",         0x20000, 0x91b64be3, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  0 MVS Asia/Europe ver. 6 (1 slot)
 	{ "sp-s2.sp1",         0x20000, 0x9036d879, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  1 MVS Asia/Europe ver. 5 (1 slot)
 	{ "sp-s.sp1",          0x20000, 0xc7f2fa45, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  2 MVS Asia/Europe ver. 3 (4 slot)
 	{ "sp-u2.sp1",         0x20000, 0xe72943de, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  3 MVS USA ver. 5 (2 slot)
@@ -994,7 +994,7 @@ STD_ROM_FN(neogeo)
 
 // Rom information
 static struct BurnRomInfo neoMVSRomDesc[] = {
-	{ "sp-s3.sp1",         0x20000, 0x91b64be3, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT           }, //  0 MVS Asia/Europe ver. 6 (1 slot)
+	{ "sp-s3.sp1",         0x20000, 0x91b64be3, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  0 MVS Asia/Europe ver. 6 (1 slot)
 	{ "sp-s2.sp1",         0x20000, 0x9036d879, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  1 MVS Asia/Europe ver. 5 (1 slot)
 	{ "sp-s.sp1",          0x20000, 0xc7f2fa45, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  2 MVS Asia/Europe ver. 3 (4 slot)
 	{ "usa_2slt.bin",      0x20000, 0xe72943de, BRF_ESS | BRF_PRG | BRF_BIOS | BRF_SELECT | BRF_OPT }, //  3 MVS USA ver. 5 (2 slot)
@@ -18477,13 +18477,13 @@ struct BurnDriver BurnDrvkof2000otc = {
 // The King of Fighters 2000 - Special Edition (Final Version, Hack)
 /* Hacked by GSC2007 & EGCG - 2021/03/04
 	NEWS:
-	1.调整BOSS性能，开启全人物
+	1.谁E��BOSS性能�E�开启全人物
 	2.随机屏蔽小头像，随机配色
-	3.使用ABCD隐藏排序
+	3.使用ABCD隐藏排庁E
 	4.开启隐藏援助
-	5.K'、八神、BOSS使用MAX超杀有血红背景特效
+	5.K'、�E神、BOSS使用MAX趁E��有血红背景特敁E
 	6.投技计算HIT
-	7.练习模式增加HUMAN
+	7.绁E��模式增加HUMAN
 	8.增加晕厥STUN提示
 	9.修复原版大量BUG */
 
