@@ -8,6 +8,7 @@ bool bStreetFighterLayout = false;
 retro_input_state_t input_cb;
 static retro_input_poll_t poll_cb;
 
+static const int nMaxMacroPerPlayer = 9;
 static unsigned nDiagInputComboStartFrame = 0;
 static unsigned nDiagInputHoldFrameDelay = 0;
 static unsigned nSwitchCode = 0;
@@ -215,8 +216,60 @@ static void AnalyzeGameLayout()
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
+			sprintf(pgi->Macro.szName, "P%i Buttons AC", nPlayer + 1);
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][0]);
+			pgi->Macro.pVal[0] = bii.pVal;
+			pgi->Macro.nVal[0] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][2]);
+			pgi->Macro.pVal[1] = bii.pVal;
+			pgi->Macro.nVal[1] = 1;
+			nMacroCount++;
+			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
+			sprintf(pgi->Macro.szName, "P%i Buttons BC", nPlayer + 1);
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][1]);
+			pgi->Macro.pVal[0] = bii.pVal;
+			pgi->Macro.nVal[0] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][2]);
+			pgi->Macro.pVal[1] = bii.pVal;
+			pgi->Macro.nVal[1] = 1;
+			nMacroCount++;
+			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
+			sprintf(pgi->Macro.szName, "P%i Buttons BD", nPlayer + 1);
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][1]);
+			pgi->Macro.pVal[0] = bii.pVal;
+			pgi->Macro.nVal[0] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][3]);
+			pgi->Macro.pVal[1] = bii.pVal;
+			pgi->Macro.nVal[1] = 1;
+			nMacroCount++;
+			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
 			sprintf(pgi->Macro.szName, "P%i Buttons CD", nPlayer + 1);
 			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][2]);
+			pgi->Macro.pVal[0] = bii.pVal;
+			pgi->Macro.nVal[0] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][3]);
+			pgi->Macro.pVal[1] = bii.pVal;
+			pgi->Macro.nVal[1] = 1;
+			nMacroCount++;
+			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
+			sprintf(pgi->Macro.szName, "P%i Buttons AD", nPlayer + 1);
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][0]);
 			pgi->Macro.pVal[0] = bii.pVal;
 			pgi->Macro.nVal[0] = 1;
 			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][3]);
@@ -256,6 +309,25 @@ static void AnalyzeGameLayout()
 			pgi->Macro.nVal[2] = 1;
 			nMacroCount++;
 			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
+			sprintf(pgi->Macro.szName, "P%i Buttons ABCD", nPlayer + 1);
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][0]);
+			pgi->Macro.pVal[0] = bii.pVal;
+			pgi->Macro.nVal[0] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][1]);
+			pgi->Macro.pVal[1] = bii.pVal;
+			pgi->Macro.nVal[1] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][2]);
+			pgi->Macro.pVal[2] = bii.pVal;
+			pgi->Macro.nVal[2] = 1;
+			BurnDrvGetInputInfo(&bii, nNeogeoButtons[nPlayer][3]);
+			pgi->Macro.pVal[3] = bii.pVal;
+			pgi->Macro.nVal[3] = 1;
+			nMacroCount++;
+			pgi++;
 		}
 	}
 
@@ -273,8 +345,8 @@ INT32 GameInpInit()
 	nGameInpCount = 0;
 	nMacroCount = 0;
 
-	// We only support up to 4 macros for now
-	nMaxMacro = nMaxPlayers * 4;
+	// up to more macros 
+	nMaxMacro = nMaxPlayers * nMaxMacroPerPlayer;
 
 	while (BurnDrvGetInputInfo(NULL,nGameInpCount) == 0)
 		nGameInpCount++;
@@ -1834,14 +1906,24 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
 			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L2 : RETRO_DEVICE_ID_JOYPAD_R2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
 	}
 	if (bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) {
+		if (strncmp("Buttons ABCD", description, 12) == 0)
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_MENU, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
 		if (strncmp("Buttons ABC", description, 11) == 0)
-			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L2 : RETRO_DEVICE_ID_JOYPAD_R2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_L3, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
 		if (strncmp("Buttons BCD", description, 11) == 0)
-			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_L2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R3, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
 		if (strncmp("Buttons AB", description, 10) == 0)
-			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : RETRO_DEVICE_ID_JOYPAD_R), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_C, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
 		if (strncmp("Buttons CD", description, 10) == 0)
-			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R : RETRO_DEVICE_ID_JOYPAD_L), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Z, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+		if (strncmp("Buttons AC", description, 10) == 0)
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_L, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+		if (strncmp("Buttons BD", description, 10) == 0)
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R2, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+		if (strncmp("Buttons AD", description, 10) == 0)
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_L2, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+		if (strncmp("Buttons BC", description, 10) == 0)
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R, description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
 	}
 
 	// Handle megadrive
